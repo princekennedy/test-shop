@@ -1,0 +1,1 @@
+export { UserEntity as CustomerEntity } from '../../users/entities/user.entity';

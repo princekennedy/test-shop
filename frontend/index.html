@@ -4,27 +4,38 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Local Business Visibility</title>
+    <title>MarketLink | Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/css/styles.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.9.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/app.js?v=20260426-authflow"></script>
 </head>
 
-<body>
+<body data-page="home">
     <div class="bg-orb orb-one"></div>
     <div class="bg-orb orb-two"></div>
 
     <nav class="navbar navbar-expand-lg border-bottom border-light-subtle bg-white bg-opacity-75 backdrop-blur sticky-top">
         <div class="container py-2">
-            <a class="navbar-brand brand-wordmark" href="#">MarketLink</a>
-            <div class="d-flex align-items-center gap-2 ms-auto">
-                <span id="sessionBadge" class="badge text-bg-dark-subtle text-dark px-3 py-2">Guest</span>
-                <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationsDrawer">
-            Notifications
-          </button>
-                <button id="logoutButton" class="btn btn-outline-dark d-none" type="button">Logout</button>
+            <a class="navbar-brand brand-wordmark" href="./index.html">MarketLink</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <div class="navbar-nav nav-pills page-links ms-lg-4 gap-lg-2">
+                    <a class="nav-link" data-nav-page="home" href="./index.html">Home</a>
+                    <a class="nav-link" href="#authSection">Login / Sign up</a>
+                    <a class="nav-link" href="#directorySection">Business listing</a>
+                </div>
+                <div class="d-flex align-items-center gap-2 ms-auto mt-3 mt-lg-0">
+                    <span id="sessionBadge" class="badge text-bg-dark-subtle text-dark px-3 py-2">Guest</span>
+                    <button id="logoutButton" class="btn btn-outline-dark d-none" type="button">Logout</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -34,20 +45,20 @@
             <div class="row g-4 align-items-center">
                 <div class="col-lg-7">
                     <span class="eyebrow">Local business visibility platform</span>
-                    <h1 class="display-5 fw-bold mt-3">Discover businesses, manage stock, and place orders from one dashboard.</h1>
+                    <h1 class="display-5 fw-bold mt-3">Find local businesses, then log in or sign up when you are ready to buy or publish services.</h1>
                     <p class="lead text-secondary mt-3 mb-4">
-                        Public visitors can browse businesses instantly. Clients manage business profiles and products. Customers place orders. Admins oversee users and business records.
+                        This home page is public. Use it to search businesses by name, category, and location, then access your customer or client account from the same page.
                     </p>
-                    <div class="d-flex flex-wrap gap-2">
-                        <span class="badge rounded-pill text-bg-light px-3 py-2">Bootstrap UI</span>
-                        <span class="badge rounded-pill text-bg-light px-3 py-2">Axios API</span>
-                        <span class="badge rounded-pill text-bg-light px-3 py-2">In-app notifications</span>
-                    </div>
                 </div>
-                <div class="col-lg-5">
+                <div class="col-lg-5" id="authSection">
                     <div class="card shadow-soft border-0 auth-card">
                         <div class="card-body p-4">
-                            <ul class="nav nav-pills nav-fill mb-4" id="authTabs" role="tablist">
+                            <div class="mb-3">
+                                <span class="eyebrow">Account access</span>
+                                <h2 class="h4 mt-2 mb-1">Login or create an account</h2>
+                                <p class="small text-secondary mb-0">Existing customer, client, and admin users log in here. New customer and client users sign up here.</p>
+                            </div>
+                            <ul class="nav nav-pills nav-fill mb-4" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#loginPane" type="button">Login</button>
                                 </li>
@@ -67,7 +78,7 @@
                                             <input class="form-control" name="password" type="password" required />
                                         </div>
                                         <div class="col-12 small text-secondary">
-                                            Demo accounts: admin@local.test / admin123, client@local.test / client123, customer@local.test / customer123
+                                            Demo login: admin@local.test / admin123, client@local.test / client123, customer@local.test / customer123
                                         </div>
                                         <div class="col-12 d-grid">
                                             <button class="btn btn-dark btn-lg" type="submit">Sign In</button>
@@ -83,9 +94,10 @@
                                         <div class="col-md-6">
                                             <label class="form-label">Role</label>
                                             <select class="form-select" name="role" required>
-                          <option value="customer">Customer</option>
-                          <option value="client">Client</option>
-                        </select>
+                                                <option value="customer">Customer</option>
+                                                <option value="client">Client</option>
+                                            </select>
+                                            <div class="form-text">Choose customer to buy products or client to publish business listings.</div>
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Email</label>
@@ -97,7 +109,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Business name</label>
-                                            <input class="form-control" name="businessName" placeholder="Only for clients" />
+                                            <input id="businessNameInput" class="form-control" name="businessName" placeholder="Required for client accounts" />
+                                            <div id="businessNameHelp" class="form-text">Leave blank for customers.</div>
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Password</label>
@@ -115,248 +128,29 @@
             </div>
         </section>
 
-        <section class="card shadow-soft border-0 mb-4">
+        <section id="directorySection" class="card shadow-soft border-0 mb-4">
             <div class="card-body p-4">
                 <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-3">
                     <div>
-                        <span class="eyebrow">Public business directory</span>
+                        <span class="eyebrow">Public directory</span>
                         <h2 class="h3 mt-2 mb-1">Search and discover local businesses</h2>
-                        <p class="text-secondary mb-0">Browse businesses without logging in, filter by category or location, then open stock listings.</p>
+                        <p class="text-secondary mb-0">Browse businesses publicly, then log in or sign up when you want to continue.</p>
                     </div>
                     <form id="searchForm" class="row g-2 w-100 w-lg-auto">
-                        <div class="col-md-auto">
-                            <input class="form-control" name="search" placeholder="Search business" />
-                        </div>
-                        <div class="col-md-auto">
-                            <input class="form-control" name="category" placeholder="Category" />
-                        </div>
-                        <div class="col-md-auto">
-                            <input class="form-control" name="location" placeholder="Location" />
-                        </div>
-                        <div class="col-md-auto d-grid">
-                            <button class="btn btn-dark" type="submit">Filter</button>
-                        </div>
+                        <div class="col-md-auto"><input class="form-control" name="search" placeholder="Search business" /></div>
+                        <div class="col-md-auto"><input class="form-control" name="category" placeholder="Category" /></div>
+                        <div class="col-md-auto"><input class="form-control" name="location" placeholder="Location" /></div>
+                        <div class="col-md-auto d-grid"><button class="btn btn-dark" type="submit">Filter</button></div>
                     </form>
                 </div>
                 <div id="businessList" class="row g-3"></div>
             </div>
         </section>
-
-        <div class="row g-4">
-            <div class="col-lg-8">
-                <section class="card shadow-soft border-0 h-100">
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <span class="eyebrow">Selected business</span>
-                                <h2 id="productsTitle" class="h3 mt-2 mb-1">Products and services</h2>
-                            </div>
-                            <span id="selectedBusinessMeta" class="text-secondary small">Choose a business to view products</span>
-                        </div>
-                        <div id="productsList" class="row g-3"></div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-lg-4">
-                <section class="card shadow-soft border-0 mb-4">
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <span class="eyebrow">Customer cart</span>
-                                <h2 class="h4 mt-2 mb-0">Place an order</h2>
-                            </div>
-                            <span id="cartCount" class="badge text-bg-dark">0 items</span>
-                        </div>
-                        <div id="cartItems" class="cart-items mb-3"></div>
-                        <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3">
-                            <span class="text-secondary">Total</span>
-                            <strong id="cartTotal">MWK 0.00</strong>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button id="placeOrderButton" class="btn btn-dark" type="button">Place order</button>
-                            <button id="clearCartButton" class="btn btn-outline-secondary" type="button">Clear cart</button>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="card shadow-soft border-0">
-                    <div class="card-body p-4">
-                        <span class="eyebrow">My orders</span>
-                        <h2 class="h4 mt-2 mb-3">Reservations and purchases</h2>
-                        <div id="ordersList" class="stack-list"></div>
-                    </div>
-                </section>
-            </div>
-        </div>
-
-        <section id="clientSection" class="card shadow-soft border-0 mt-4 d-none">
-            <div class="card-body p-4">
-                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
-                    <div>
-                        <span class="eyebrow">Client workspace</span>
-                        <h2 class="h3 mt-2 mb-1">Business profile and stock management</h2>
-                        <p class="text-secondary mb-0">Create or update business profiles, upload image URLs, and manage stock items.</p>
-                    </div>
-                    <button id="refreshClientButton" class="btn btn-outline-dark" type="button">Refresh client data</button>
-                </div>
-                <div class="row g-4">
-                    <div class="col-lg-5">
-                        <form id="businessForm" class="card border-0 bg-light-subtle h-100">
-                            <div class="card-body p-3 p-lg-4 row g-3">
-                                <div class="col-12">
-                                    <h3 class="h5 mb-0">Business details</h3>
-                                </div>
-                                <input type="hidden" name="businessId" />
-                                <div class="col-12">
-                                    <label class="form-label">Name</label>
-                                    <input class="form-control" name="name" required />
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label">Description</label>
-                                    <textarea class="form-control" rows="3" name="description" required></textarea>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Category</label>
-                                    <input class="form-control" name="category" required />
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Location</label>
-                                    <input class="form-control" name="location" required />
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label">Contact</label>
-                                    <input class="form-control" name="contact" required />
-                                </div>
-                                <div class="col-12 d-grid gap-2 d-md-flex">
-                                    <button class="btn btn-dark flex-fill" type="submit">Save business</button>
-                                    <button id="deleteBusinessButton" class="btn btn-outline-danger flex-fill" type="button">Delete</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="row g-4">
-                            <div class="col-12">
-                                <form id="imageForm" class="card border-0 bg-light-subtle">
-                                    <div class="card-body p-3 p-lg-4 row g-3 align-items-end">
-                                        <div class="col-md-9">
-                                            <label class="form-label">Business image URL</label>
-                                            <input class="form-control" name="imageUrl" placeholder="https://example.com/image.jpg" required />
-                                        </div>
-                                        <div class="col-md-3 d-grid">
-                                            <button class="btn btn-outline-dark" type="submit">Add image</button>
-                                        </div>
-                                        <div class="col-12" id="imageList"></div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-12">
-                                <form id="productForm" class="card border-0 bg-light-subtle">
-                                    <div class="card-body p-3 p-lg-4 row g-3">
-                                        <div class="col-12 d-flex justify-content-between align-items-center">
-                                            <h3 class="h5 mb-0">Stock item</h3>
-                                            <input type="hidden" name="productId" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">Product name</label>
-                                            <input class="form-control" name="name" required />
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label">Price</label>
-                                            <input class="form-control" name="price" type="number" min="0" step="0.01" required />
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="form-label">Stock</label>
-                                            <input class="form-control" name="stock" type="number" min="0" step="1" required />
-                                        </div>
-                                        <div class="col-12">
-                                            <label class="form-label">Description</label>
-                                            <textarea class="form-control" rows="2" name="description"></textarea>
-                                        </div>
-                                        <div class="col-12 d-grid d-md-flex gap-2">
-                                            <button class="btn btn-dark flex-fill" type="submit">Save product</button>
-                                            <button id="resetProductButton" class="btn btn-outline-secondary flex-fill" type="button">Reset form</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-12">
-                                <div class="card border-0 bg-light-subtle">
-                                    <div class="card-body p-3 p-lg-4">
-                                        <h3 class="h5 mb-3">Current stock</h3>
-                                        <div id="clientProductsList" class="stack-list"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="adminSection" class="card shadow-soft border-0 mt-4 d-none">
-            <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <span class="eyebrow">Admin overview</span>
-                        <h2 class="h3 mt-2 mb-1">Users and business moderation</h2>
-                    </div>
-                    <button id="refreshAdminButton" class="btn btn-outline-dark" type="button">Refresh admin data</button>
-                </div>
-                <div class="row g-4">
-                    <div class="col-lg-4">
-                        <form id="adminCustomerForm" class="card border-0 bg-light-subtle h-100">
-                            <div class="card-body p-3 p-lg-4 row g-3">
-                                <div class="col-12">
-                                    <h3 class="h5 mb-0">Create customer</h3>
-                                </div>
-                                <div class="col-12"><input class="form-control" name="username" placeholder="Username" required /></div>
-                                <div class="col-12"><input class="form-control" name="email" type="email" placeholder="Email" required /></div>
-                                <div class="col-12"><input class="form-control" name="location" placeholder="Location" /></div>
-                                <div class="col-12"><input class="form-control" name="password" type="password" placeholder="Password" required /></div>
-                                <div class="col-12 d-grid"><button class="btn btn-dark" type="submit">Create customer</button></div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card border-0 bg-light-subtle h-100">
-                            <div class="card-body p-3 p-lg-4">
-                                <h3 class="h5 mb-3">Users</h3>
-                                <div id="adminUsersList" class="stack-list"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card border-0 bg-light-subtle h-100">
-                            <div class="card-body p-3 p-lg-4">
-                                <h3 class="h5 mb-3">Businesses</h3>
-                                <div id="adminBusinessesList" class="stack-list"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationsDrawer">
-        <div class="offcanvas-header">
-            <div>
-                <span class="eyebrow">In-app alerts</span>
-                <h2 class="h4 mt-2 mb-0">Notifications</h2>
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div id="notificationList" class="stack-list"></div>
-        </div>
-    </div>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.9.0/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/app.js"></script>
+
 </body>
 
 </html>

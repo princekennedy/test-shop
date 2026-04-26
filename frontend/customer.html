@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MarketLink | Customer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+
+
+    <script defer src="https://cdn.jsdelivr.net/npm/axios@1.9.0/dist/axios.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="/js/app.js?v=20260426-authflow"></script>
+</head>
+
+<body data-page="customer">
+    <div class="bg-orb orb-one"></div>
+    <div class="bg-orb orb-two"></div>
+
+    <nav class="navbar navbar-expand-lg border-bottom border-light-subtle bg-white bg-opacity-75 backdrop-blur sticky-top">
+        <div class="container py-2">
+            <a class="navbar-brand brand-wordmark" href="/index.html">MarketLink</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <div class="navbar-nav nav-pills page-links ms-lg-4 gap-lg-2">
+                    <a class="nav-link" data-nav-page="home" href="/index.html">Home</a>
+                    <a class="nav-link" data-nav-page="customer" href="/customer.html">Customer</a>
+                    <a class="nav-link" data-nav-page="client" href="/client.html">Client</a>
+                    <a class="nav-link" data-nav-page="admin" href="/admin.html">Admin</a>
+                </div>
+                <div class="d-flex align-items-center gap-2 ms-auto mt-3 mt-lg-0">
+                    <span id="sessionBadge" class="badge text-bg-dark-subtle text-dark px-3 py-2">Guest</span>
+                    <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationsDrawer">Notifications</button>
+                    <button id="logoutButton" class="btn btn-outline-dark d-none" type="button">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4 py-lg-5">
+        <section class="page-hero mb-4">
+            <span class="eyebrow">Customer workspace</span>
+            <h1 class="display-6 fw-bold mt-2">Browse products, manage your cart, and place orders.</h1>
+            <p class="text-secondary mb-0">This page keeps the shopping flow separate from client and admin tools.</p>
+        </section>
+
+        <section class="card shadow-soft border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-3">
+                    <div>
+                        <span class="eyebrow">Business directory</span>
+                        <h2 class="h3 mt-2 mb-1">Find a business to order from</h2>
+                    </div>
+                    <form id="searchForm" class="row g-2 w-100 w-lg-auto">
+                        <div class="col-md-auto"><input class="form-control" name="search" placeholder="Search business" /></div>
+                        <div class="col-md-auto"><input class="form-control" name="category" placeholder="Category" /></div>
+                        <div class="col-md-auto"><input class="form-control" name="location" placeholder="Location" /></div>
+                        <div class="col-md-auto d-grid"><button class="btn btn-dark" type="submit">Filter</button></div>
+                    </form>
+                </div>
+                <div id="businessList" class="row g-3"></div>
+            </div>
+        </section>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <section class="card shadow-soft border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <span class="eyebrow">Selected business</span>
+                                <h2 id="productsTitle" class="h3 mt-2 mb-1">Products and services</h2>
+                            </div>
+                            <span id="selectedBusinessMeta" class="text-secondary small">Choose a business to view products</span>
+                        </div>
+                        <div id="productsList" class="row g-3"></div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-4">
+                <section class="card shadow-soft border-0 mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <span class="eyebrow">Customer cart</span>
+                                <h2 class="h4 mt-2 mb-0">Place an order</h2>
+                            </div>
+                            <span id="cartCount" class="badge text-bg-dark">0 items</span>
+                        </div>
+                        <div id="cartItems" class="cart-items mb-3"></div>
+                        <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3">
+                            <span class="text-secondary">Total</span>
+                            <strong id="cartTotal">MWK 0.00</strong>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button id="placeOrderButton" class="btn btn-dark" type="button">Place order</button>
+                            <button id="clearCartButton" class="btn btn-outline-secondary" type="button">Clear cart</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card shadow-soft border-0">
+                    <div class="card-body p-4">
+                        <span class="eyebrow">My orders</span>
+                        <h2 class="h4 mt-2 mb-3">Reservations and purchases</h2>
+                        <div id="ordersList" class="stack-list"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationsDrawer">
+        <div class="offcanvas-header">
+            <div>
+                <span class="eyebrow">In-app alerts</span>
+                <h2 class="h4 mt-2 mb-0">Notifications</h2>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="notificationList" class="stack-list"></div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+</body>
+
+</html>
