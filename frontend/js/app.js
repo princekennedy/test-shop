@@ -96,7 +96,12 @@ function showToast(message, variant = 'dark') {
 }
 
 function getErrorMessage(error) {
-    return error ? .response ? .data ? .message || error ? .message || 'Request failed';
+    const responseMessage = error?.response?.data?.message;
+    if (Array.isArray(responseMessage)) {
+        return responseMessage.join(', ');
+    }
+
+    return responseMessage || error?.message || 'Request failed';
 }
 
 async function request(config) {
@@ -146,15 +151,15 @@ function redirectToWorkspace(role) {
 
 function rolePage(role) {
     if (role === 'customer') {
-        return '/customer.html';
+        return '/customer';
     }
     if (role === 'client') {
-        return '/client.html';
+        return '/client';
     }
     if (role === 'admin') {
-        return '/admin.html';
+        return '/admin';
     }
-    return '/index.html';
+    return '/';
 }
 
 function notificationBasePath() {
@@ -182,7 +187,7 @@ function updateNav() {
 }
 
 function renderSession() {
-    const role = state.user ? .role || 'guest';
+    const role = state.user?.role || 'guest';
     const label = state.user ? `${state.user.username} (${role})` : 'Guest';
 
     if (els.sessionBadge) {
@@ -538,7 +543,7 @@ function addToCart(productId, quantity) {
 
 function requireRole(role) {
     if (!state.user) {
-        window.location.replace('/index.html');
+        window.location.replace('/');
         return false;
     }
 
@@ -591,7 +596,7 @@ function bindCommonEvents() {
             renderSession();
             renderNotifications();
             els.logoutButton.disabled = false;
-            window.location.replace('/index.html');
+            window.location.replace('/');
         });
     }
 
@@ -610,7 +615,7 @@ function bindCommonEvents() {
 
         if (action === 'add-cart') {
             const quantityInput = document.querySelector(`[data-quantity-input="${id}"]`);
-            const quantity = Number(quantityInput ? .value || 1);
+            const quantity = Number(quantityInput?.value || 1);
             if (quantity < 1) {
                 showToast('Quantity must be at least 1.', 'warning');
                 return;
@@ -779,7 +784,7 @@ function bindSearch() {
 function bindCustomerEvents() {
     if (els.placeOrderButton) {
         els.placeOrderButton.addEventListener('click', async() => {
-            if (state.user ? .role !== 'customer') {
+            if (state.user?.role !== 'customer') {
                 showToast('Login as a customer to place an order.', 'warning');
                 return;
             }
@@ -853,7 +858,7 @@ function bindClientEvents() {
     if (els.imageForm) {
         els.imageForm.addEventListener('submit', async(event) => {
             event.preventDefault();
-            const businessId = els.businessForm ? .elements.businessId.value;
+            const businessId = els.businessForm?.elements.businessId.value;
             if (!businessId) {
                 showToast('Create a business before adding images.', 'warning');
                 return;
@@ -870,7 +875,7 @@ function bindClientEvents() {
     if (els.productForm) {
         els.productForm.addEventListener('submit', async(event) => {
             event.preventDefault();
-            const businessId = els.businessForm ? .elements.businessId.value;
+            const businessId = els.businessForm?.elements.businessId.value;
             if (!businessId) {
                 showToast('Create a business before adding stock.', 'warning');
                 return;
