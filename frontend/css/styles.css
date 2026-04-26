@@ -1,0 +1,166 @@
+:root {
+    --brand-ink: #14213d;
+    --brand-accent: #f4a261;
+    --brand-warm: #fefae0;
+    --brand-paper: rgba(255, 255, 255, 0.82);
+    --brand-line: rgba(20, 33, 61, 0.08);
+    --shadow-soft: 0 24px 80px rgba(20, 33, 61, 0.08);
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, rgba(244, 162, 97, 0.28), transparent 30%), radial-gradient(circle at bottom right, rgba(42, 157, 143, 0.2), transparent 28%), linear-gradient(180deg, #fffdf7 0%, #f5f7fb 100%);
+    color: var(--brand-ink);
+    font-family: 'Manrope', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.brand-wordmark {
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.brand-wordmark {
+    letter-spacing: -0.03em;
+    font-size: 1.35rem;
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(14px);
+}
+
+.shadow-soft {
+    box-shadow: var(--shadow-soft);
+}
+
+.hero-panel {
+    position: relative;
+    padding: 2rem;
+    border-radius: 1.75rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(254, 250, 224, 0.92));
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+.hero-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(244, 162, 97, 0.08));
+    pointer-events: none;
+}
+
+.auth-card,
+.card,
+.offcanvas {
+    background: var(--brand-paper);
+    border-radius: 1.4rem;
+}
+
+.eyebrow {
+    display: inline-block;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9c6644;
+}
+
+.bg-orb {
+    position: fixed;
+    width: 22rem;
+    height: 22rem;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.25;
+    z-index: -1;
+}
+
+.orb-one {
+    top: 3rem;
+    right: -4rem;
+    background: #f4a261;
+}
+
+.orb-two {
+    bottom: -3rem;
+    left: -4rem;
+    background: #2a9d8f;
+}
+
+.nav-pills .nav-link {
+    color: var(--brand-ink);
+    border-radius: 999px;
+}
+
+.nav-pills .nav-link.active {
+    background: var(--brand-ink);
+}
+
+.form-control,
+.form-select {
+    border-radius: 0.95rem;
+    padding: 0.8rem 0.95rem;
+    border-color: rgba(20, 33, 61, 0.12);
+}
+
+.btn {
+    border-radius: 0.95rem;
+    padding: 0.72rem 1rem;
+    font-weight: 700;
+}
+
+.stack-list,
+.cart-items {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.stack-card {
+    border: 1px solid var(--brand-line);
+    border-radius: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.business-card,
+.product-card {
+    height: 100%;
+    border: 1px solid var(--brand-line);
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.75);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.business-card:hover,
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(20, 33, 61, 0.1);
+}
+
+.image-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(20, 33, 61, 0.06);
+    margin: 0 0.5rem 0.5rem 0;
+}
+
+.empty-state {
+    padding: 1.2rem;
+    text-align: center;
+    border: 1px dashed rgba(20, 33, 61, 0.15);
+    border-radius: 1rem;
+    color: #6c757d;
+}
+
+@media (max-width: 991.98px) {
+    .hero-panel {
+        padding: 1.25rem;
+    }
+}
